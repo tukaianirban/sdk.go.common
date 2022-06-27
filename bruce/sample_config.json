@@ -1,0 +1,19 @@
+{
+    "firestore" : {
+        "collection" : "collection_babysleep_free_devicetokens",
+        "fieldCount" : 2
+    },
+    "services" : [
+        {
+            "serviceName" : "fcm",
+            "provider" : "google"
+        },
+        {
+            "serviceName" : "cloudfunctions",
+            "provider" : "google"
+        }
+    ],
+    "format" : "json",
+    "version" : 999,
+    "semanticVersion" : 0.12
+}
