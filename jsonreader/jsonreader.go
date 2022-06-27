@@ -7,7 +7,9 @@ import (
 	"strings"
 )
 
-type JsonReader map[string]interface{}
+type JsonReader struct {
+	data map[string]interface{}
+}
 
 func ReadFromFile(filename string) (*JsonReader, error) {
 
@@ -17,7 +19,7 @@ func ReadFromFile(filename string) (*JsonReader, error) {
 	}
 
 	var jsonReaderObject JsonReader
-	err = json.Unmarshal(filebytes, &jsonReaderObject)
+	err = json.Unmarshal(filebytes, &jsonReaderObject.data)
 
 	return &jsonReaderObject, err
 }
@@ -29,7 +31,8 @@ func (self *JsonReader) get(key string) (interface{}, error) {
 		return nil, errors.New("invalid key format")
 	}
 
-	var localReader interface{} = self
+	var localReader interface{} = self.data
+
 	for _, part := range keyparts {
 
 		v, ok := localReader.(map[string]interface{})
@@ -114,7 +117,7 @@ func (self *JsonReader) GetArray(key string) ([]interface{}, error) {
 	return v, nil
 }
 
-func (self *JsonReader) GetMap(key string) (map[string]interface{}, error) {
+func (self JsonReader) GetMap(key string) (map[string]interface{}, error) {
 
 	intVal, err := self.get(key)
 	if err != nil {
