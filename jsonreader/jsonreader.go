@@ -1,4 +1,4 @@
-package bruce
+package jsonreader
 
 import (
 	"encoding/json"
@@ -7,34 +7,32 @@ import (
 	"strings"
 )
 
-var bruceObject map[string]interface{}
+type JsonReader map[string]interface{}
 
-func ReadFromFile(filename string) error {
+func ReadFromFile(filename string) (*JsonReader, error) {
 
 	filebytes, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	err = json.Unmarshal(filebytes, &bruceObject)
-	return err
+	var jsonReaderObject JsonReader
+	err = json.Unmarshal(filebytes, &jsonReaderObject)
+
+	return &jsonReaderObject, err
 }
 
-func get(key string) (interface{}, error) {
-
-	if bruceObject == nil {
-		return nil, errors.New("bruce not init")
-	}
+func (self *JsonReader) get(key string) (interface{}, error) {
 
 	keyparts := strings.Split(key, ".")
 	if len(keyparts) == 0 {
 		return nil, errors.New("invalid key format")
 	}
 
-	var localBruce interface{} = bruceObject
+	var localReader interface{} = self
 	for _, part := range keyparts {
 
-		v, ok := localBruce.(map[string]interface{})
+		v, ok := localReader.(map[string]interface{})
 		if !ok {
 			return nil, errors.New("key depth too much")
 		}
@@ -44,15 +42,15 @@ func get(key string) (interface{}, error) {
 			return nil, errors.New("key not found")
 		}
 
-		localBruce = val
+		localReader = val
 	}
 
-	return localBruce, nil
+	return localReader, nil
 }
 
-func GetString(key string) (string, error) {
+func (self *JsonReader) GetString(key string) (string, error) {
 
-	intVal, err := get(key)
+	intVal, err := self.get(key)
 	if err != nil {
 		return "", err
 	}
@@ -60,14 +58,14 @@ func GetString(key string) (string, error) {
 	v, ok := intVal.(string)
 	if !ok {
 		return "", errors.New("not a string value")
+	} else {
+		return v, nil
 	}
-
-	return v, nil
 }
 
-func GetInt(key string) (int, error) {
+func (self *JsonReader) GetInt(key string) (int, error) {
 
-	intVal, err := get(key)
+	intVal, err := self.get(key)
 	if err != nil {
 		return 0, err
 	}
@@ -86,9 +84,9 @@ func GetInt(key string) (int, error) {
 	}
 }
 
-func GetFloat64(key string) (float64, error) {
+func (self *JsonReader) GetFloat64(key string) (float64, error) {
 
-	intVal, err := get(key)
+	intVal, err := self.get(key)
 	if err != nil {
 		return 0, err
 	}
@@ -101,9 +99,9 @@ func GetFloat64(key string) (float64, error) {
 	return v, nil
 }
 
-func GetArray(key string) ([]interface{}, error) {
+func (self *JsonReader) GetArray(key string) ([]interface{}, error) {
 
-	intVal, err := get(key)
+	intVal, err := self.get(key)
 	if err != nil {
 		return nil, err
 	}
@@ -116,9 +114,9 @@ func GetArray(key string) ([]interface{}, error) {
 	return v, nil
 }
 
-func GetMap(key string) (map[string]interface{}, error) {
+func (self *JsonReader) GetMap(key string) (map[string]interface{}, error) {
 
-	intVal, err := get(key)
+	intVal, err := self.get(key)
 	if err != nil {
 		return nil, err
 	}
