@@ -1,70 +1,81 @@
 package bruce
 
 import (
+	"flag"
+	"log"
+	"os"
+	"time"
+
 	"github.com/tukaianirban/sdk.go.common/jsonreader"
 )
 
-var bruceObject *jsonreader.JsonReader
-
-func ReadFromFile(filename string) error {
-
-	var err error
-
-	bruceObject, err = jsonreader.ReadFromFile(filename)
-	return err
+type fileIndexer struct {
+	Filename    string
+	Reader      *jsonreader.JsonReader
+	FileModTime time.Time
 }
 
-// func get(key string) (interface{}, error) {
+var indexer *fileIndexer
+var configFileName *string
 
-// 	if bruceObject == nil {
-// 		return nil, errors.New("bruce not init")
-// 	}
+func Init() {
 
-// 	keyparts := strings.Split(key, ".")
-// 	if len(keyparts) == 0 {
-// 		return nil, errors.New("invalid key format")
-// 	}
+	configFileName = flag.String("config", "./config.json", "configuration file")
 
-// 	var localBruce interface{} = bruceObject
-// 	for _, part := range keyparts {
+	flag.Parse()
 
-// 		v, ok := localBruce.(map[string]interface{})
-// 		if !ok {
-// 			return nil, errors.New("key depth too much")
-// 		}
+	if readFromFile(*configFileName) != nil {
+		log.Fatalf("error: failed to read from config file")
+		indexer = nil
+	}
 
-// 		val, ok := v[part]
-// 		if !ok {
-// 			return nil, errors.New("key not found")
-// 		}
-
-// 		localBruce = val
-// 	}
-
-// 	return localBruce, nil
-// }
-
-func GetString(key string) (string, error) {
-
-	return bruceObject.GetString(key)
+	go watcher()
 }
 
-func GetInt(key string) (int, error) {
+func readFromFile(filename string) error {
 
-	return bruceObject.GetInt(key)
+	reader, err := jsonreader.ReadFromFile(filename)
+	if err != nil {
+		return err
+	}
+
+	fileInfo, err := os.Stat(filename)
+	if err != nil {
+		return err
+	}
+
+	indexer = &fileIndexer{
+		Filename:    filename,
+		Reader:      reader,
+		FileModTime: fileInfo.ModTime(),
+	}
+
+	return nil
 }
 
-func GetFloat64(key string) (float64, error) {
+//
+// execute this as a goroutine to keep a watch of any changes to the current config file
+// no need for a terminate signal for the goroutine -> cleanup later
+//
+func watcher() {
 
-	return bruceObject.GetFloat64(key)
-}
+	ticker := time.NewTicker(30 * time.Second)
 
-func GetArray(key string) ([]interface{}, error) {
+	for {
 
-	return bruceObject.GetArray(key)
-}
+		<-ticker.C
 
-func GetMap(key string) (map[string]interface{}, error) {
+		fileInfo, err := os.Stat(indexer.Filename)
+		if err != nil {
+			log.Printf("error: failed to read fileinfo of configfile, reason=%s", err.Error())
+			break
+		}
 
-	return bruceObject.GetMap(key)
+		if !fileInfo.ModTime().Equal(indexer.FileModTime) {
+			log.Print("change in config file detected")
+			if err = readFromFile(indexer.Filename); err != nil {
+				log.Printf("error: configfile update detected; failed to read in new config, reason=%s", err.Error())
+			}
+		}
+	}
 }

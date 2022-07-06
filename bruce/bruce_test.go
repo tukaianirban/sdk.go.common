@@ -4,7 +4,7 @@ import "testing"
 
 func TestGetString(t *testing.T) {
 
-	if err := ReadFromFile("./sample_config.json"); err != nil {
+	if err := readFromFile("./sample_config.json"); err != nil {
 		t.Fatalf("failed to init from config file, reason=%s", err.Error())
 	}
 
@@ -18,7 +18,7 @@ func TestGetString(t *testing.T) {
 
 func TestGetInt(t *testing.T) {
 
-	if err := ReadFromFile("./sample_config.json"); err != nil {
+	if err := readFromFile("./sample_config.json"); err != nil {
 		t.Fatalf("failed to init from config file, reason=%s", err.Error())
 	}
 
@@ -39,7 +39,7 @@ func TestGetInt(t *testing.T) {
 
 func TestGetFloat64(t *testing.T) {
 
-	if err := ReadFromFile("./sample_config.json"); err != nil {
+	if err := readFromFile("./sample_config.json"); err != nil {
 		t.Fatalf("failed to init from config file, reason=%s", err.Error())
 	}
 
