@@ -1,6 +1,6 @@
 {
     "firestore" : {
-        "collection" : "collection_babysleep_free_devicetokens",
+        "collection" : "collection_app_free_devicetokens",
         "fieldCount" : 2
     },
     "services" : [
