@@ -1,81 +1,77 @@
 package bruce
 
 import (
-	"flag"
 	"log"
-	"os"
-	"time"
-
-	"github.com/tukaianirban/sdk.go.common/jsonreader"
 )
 
-type fileIndexer struct {
-	Filename    string
-	Reader      *jsonreader.JsonReader
-	FileModTime time.Time
-}
-
-var indexer *fileIndexer
-var configFileName *string
-
-func Init() {
-
-	configFileName = flag.String("config", "./config.json", "configuration file")
-
-	flag.Parse()
-
-	if readFromFile(*configFileName) != nil {
-		log.Fatalf("error: failed to read from config file")
-		indexer = nil
-	}
-
-	go watcher()
-}
-
-func readFromFile(filename string) error {
-
-	reader, err := jsonreader.ReadFromFile(filename)
-	if err != nil {
-		return err
-	}
-
-	fileInfo, err := os.Stat(filename)
-	if err != nil {
-		return err
-	}
-
-	indexer = &fileIndexer{
-		Filename:    filename,
-		Reader:      reader,
-		FileModTime: fileInfo.ModTime(),
-	}
-
-	return nil
-}
-
 //
-// execute this as a goroutine to keep a watch of any changes to the current config file
-// no need for a terminate signal for the goroutine -> cleanup later
+// different data stores must return config clients adhering to this interface
 //
-func watcher() {
+type DataStoreInterface interface {
+	GetString(string) (string, error)
+	GetInt(string) (int, error)
+	GetFloat64(string) (float64, error)
+	GetArray(string) ([]interface{}, error)
+	GetMap(string) (map[string]interface{}, error)
+}
 
-	ticker := time.NewTicker(30 * time.Second)
+const (
+	MODE_LOCAL = iota
+	MODE_GCP
+	MODE_AWS
+)
 
-	for {
+var configIndexer DataStoreInterface
 
-		<-ticker.C
+func Init(mode int, args ...string) {
 
-		fileInfo, err := os.Stat(indexer.Filename)
-		if err != nil {
-			log.Printf("error: failed to read fileinfo of configfile, reason=%s", err.Error())
-			break
+	var err error
+
+	switch mode {
+	case MODE_LOCAL:
+		if len(args) < 1 {
+			log.Fatalf("error: Local config init params not provided")
 		}
 
-		if !fileInfo.ModTime().Equal(indexer.FileModTime) {
-			log.Print("change in config file detected")
-			if err = readFromFile(indexer.Filename); err != nil {
-				log.Printf("error: configfile update detected; failed to read in new config, reason=%s", err.Error())
-			}
+		// pass in the local config file name
+		if configIndexer, err = initConfigModeLocal(args[0]); err != nil {
+			log.Fatalf("error initializing local mode config, reason=%s", err.Error())
 		}
+
+	case MODE_GCP:
+		if len(args) < 1 {
+			log.Fatalf("error: GCP config init params not provided")
+		}
+
+		// pass in the GCP project-id
+		configIndexer = initConfigModeGCP(args[0])
+
+	default:
+		log.Fatalf("fatal: config mode not implemented")
 	}
+}
+
+func GetString(key string) (string, error) {
+
+	return configIndexer.GetString(key)
+}
+
+func GetInt(key string) (int, error) {
+
+	return configIndexer.GetInt(key)
+}
+
+func GetFloat64(key string) (float64, error) {
+
+	return configIndexer.GetFloat64(key)
+}
+
+func GetArray(key string) ([]interface{}, error) {
+
+	return configIndexer.GetArray(key)
+}
+
+func GetMap(key string) (map[string]interface{}, error) {
+
+	return configIndexer.GetMap(key)
 }
