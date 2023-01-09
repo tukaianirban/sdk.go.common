@@ -8,6 +8,7 @@ import (
 // different data stores must return config clients adhering to this interface
 //
 type DataStoreInterface interface {
+	GetBoolean(string) (bool, error)
 	GetString(string) (string, error)
 	GetInt(string) (int, error)
 	GetFloat64(string) (float64, error)
@@ -49,6 +50,11 @@ func Init(mode int, args ...string) {
 	default:
 		log.Fatalf("fatal: config mode not implemented")
 	}
+}
+
+func GetBoolean(key string) (bool, error) {
+
+	return configIndexer.GetBoolean(key)
 }
 
 func GetString(key string) (string, error) {

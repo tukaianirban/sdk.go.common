@@ -51,6 +51,16 @@ func (indexer GcpIndexer) get(key string) ([]byte, error) {
 	return result.Payload.Data, nil
 }
 
+func (indexer GcpIndexer) GetBoolean(key string) (bool, error) {
+
+	resultbytes, err := indexer.get(key)
+	if err != nil {
+		return false, err
+	}
+
+	return strconv.ParseBool(string(resultbytes))
+}
+
 func (indexer GcpIndexer) GetString(key string) (string, error) {
 
 	resultbytes, err := indexer.get(key)

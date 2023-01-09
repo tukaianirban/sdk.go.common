@@ -75,6 +75,11 @@ func readFromFile(filename string) error {
 	return nil
 }
 
+func (self fileIndexer) GetBoolean(key string) (bool, error) {
+
+	return self.Reader.GetBoolean(key)
+}
+
 func (self fileIndexer) GetString(key string) (string, error) {
 
 	return self.Reader.GetString(key)

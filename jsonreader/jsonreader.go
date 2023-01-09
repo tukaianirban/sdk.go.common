@@ -51,6 +51,21 @@ func (self *JsonReader) get(key string) (interface{}, error) {
 	return localReader, nil
 }
 
+func (self *JsonReader) GetBoolean(key string) (bool, error) {
+
+	boolVal, err := self.get(key)
+	if err != nil {
+		return false, err
+	}
+
+	v, ok := boolVal.(bool)
+	if !ok {
+		return false, errors.New("not a boolean value")
+	} else {
+		return v, nil
+	}
+}
+
 func (self *JsonReader) GetString(key string) (string, error) {
 
 	intVal, err := self.get(key)
