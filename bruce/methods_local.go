@@ -47,7 +47,7 @@ func (self fileIndexer) watcher() {
 
 		if !fileInfo.ModTime().Equal(indexer.FileModTime) {
 			log.Print("change in local config file detected")
-			if err = readFromFile(indexer.Filename); err != nil {
+			if err = indexer.reloadConfig(); err != nil {
 				log.Printf("error: configfile update detected; failed to read in new config, reason=%s", err.Error())
 			}
 		}
@@ -71,6 +71,27 @@ func readFromFile(filename string) error {
 		Reader:      reader,
 		FileModTime: fileInfo.ModTime(),
 	}
+
+	return nil
+}
+
+/**
+reload config from the same file
+**/
+func (self *fileIndexer) reloadConfig() error {
+
+	reader, err := jsonreader.ReadFromFile(self.Filename)
+	if err != nil {
+		return err
+	}
+
+	fileInfo, err := os.Stat(self.Filename)
+	if err != nil {
+		return err
+	}
+
+	self.Reader = reader
+	self.FileModTime = fileInfo.ModTime()
 
 	return nil
 }

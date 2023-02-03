@@ -40,12 +40,13 @@ func Init(mode int, args ...string) {
 		}
 
 	case MODE_GCP:
-		if len(args) < 1 {
-			log.Fatalf("error: GCP config init params not provided")
-		}
+		// if len(args) < 1 {
+		// 	log.Fatalf("error: GCP config init params not provided")
+		// }
 
 		// pass in the GCP project-id
-		configIndexer = initConfigModeGCP(args[0])
+		// configIndexer = initConfigModeGCP(args[0])
+		fallthrough
 
 	default:
 		log.Fatalf("fatal: config mode not implemented")

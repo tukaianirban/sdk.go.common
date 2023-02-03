@@ -1,12 +1,12 @@
 package bruce
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGetString(t *testing.T) {
 
-	if err := readFromFile("./sample_config.json"); err != nil {
-		t.Fatalf("failed to init from config file, reason=%s", err.Error())
-	}
+	Init(MODE_LOCAL, "./sample_config.json")
 
 	val, err := GetString("firestore.collection")
 	if err != nil {

@@ -28,6 +28,9 @@ const (
 	Emergency
 )
 
+var SevLevelStrings [9]string = [9]string{"DEF", "DEBUG", "INFO",
+	"NOTIC", "WARN", "ERR", "CRIT", "ALERT", "EMERG"}
+
 const FORMAT_DATETIME_UNIVERSAL string = "02-01-2006 15:04:05"
 
 type LogMessage struct {
@@ -55,6 +58,15 @@ func Init(ctx context.Context) error {
 	}
 
 	switch storeConfig {
+	case "default":
+		loggerObj, err = getDefaultLogger(ctx)
+		if err != nil {
+			return err
+		} else {
+			log.Printf("log provider type=%s; init done", "default")
+			return nil
+		}
+
 	case "local":
 		loggerObj, err = getLocalLogger(ctx)
 		if err != nil {
@@ -65,13 +77,14 @@ func Init(ctx context.Context) error {
 		}
 
 	case "gcp":
-		loggerObj, err = getGCPLogger(ctx)
-		if err != nil {
-			return err
-		} else {
-			log.Printf("log provider type=%s init done", storeConfig)
-			return nil
-		}
+		// loggerObj, err = getGCPLogger(ctx)
+		// if err != nil {
+		// 	return err
+		// } else {
+		// 	log.Printf("log provider type=%s init done", storeConfig)
+		// 	return nil
+		// }
+		fallthrough
 
 	default:
 		return errors.New("unknown logs provider configured")

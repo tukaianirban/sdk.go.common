@@ -26,7 +26,7 @@ func ReadFromFile(filename string) (*JsonReader, error) {
 
 func (self *JsonReader) get(key string) (interface{}, error) {
 
-	keyparts := strings.Split(key, "_")
+	keyparts := strings.Split(key, ".")
 	if len(keyparts) == 0 {
 		return nil, errors.New("invalid key format")
 	}
