@@ -18,9 +18,7 @@ func TestGetString(t *testing.T) {
 
 func TestGetInt(t *testing.T) {
 
-	if err := readFromFile("./sample_config.json"); err != nil {
-		t.Fatalf("failed to init from config file, reason=%s", err.Error())
-	}
+	Init(MODE_LOCAL, "./sample_config.json")
 
 	val, err := GetInt("firestore.fieldCount")
 	if err != nil {
@@ -39,9 +37,7 @@ func TestGetInt(t *testing.T) {
 
 func TestGetFloat64(t *testing.T) {
 
-	if err := readFromFile("./sample_config.json"); err != nil {
-		t.Fatalf("failed to init from config file, reason=%s", err.Error())
-	}
+	Init(MODE_LOCAL, "./sample_config.json")
 
 	val, err := GetFloat64("semanticVersion")
 	if err != nil {

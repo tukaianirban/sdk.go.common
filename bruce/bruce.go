@@ -24,6 +24,10 @@ const (
 
 var configIndexer DataStoreInterface
 
+/**
+Mode: determines if config is fetched from local file, gcp, aws, etc
+args: optional param depending on the mode (ex: for local mode, the config file)
+**/
 func Init(mode int, args ...string) {
 
 	var err error
