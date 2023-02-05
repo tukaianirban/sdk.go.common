@@ -16,43 +16,31 @@ const (
 	MODE_AWS
 )
 
-// todo : move this package to sdk.go.common with support for logging locally or with a cloud provider
+//
+// severity-based prefixes definition
+//
+const (
+	SEVERITY_DEFAULT   = "DEF"
+	SEVERITY_DEBUG     = "DEB"
+	SEVERITY_INFO      = "INF"
+	SEVERITY_NOTICE    = "NOT"
+	SEVERITY_WARNING   = "WAR"
+	SEVERITY_ERROR     = "ERR"
+	SEVERITY_CRITICAL  = "CRI"
+	SEVERITY_ALERT     = "ALE"
+	SEVERITY_EMERGENCY = "EME"
+	SEVERITY_FATAL     = "FAT"
+	SEVERITY_TRACER    = "TRA"
+)
 
-// type Logger interface {
-// 	Log(name string, sev Sevlevel)
-// }
-
-// type Sevlevel uint8
-
-// const (
-// 	Default Sevlevel = iota
-// 	Debug
-// 	Info
-// 	Notice
-// 	Warning
-// 	Error
-// 	Critical
-// 	Alert
-// 	Emergency
-// )
-
-// var SevLevelStrings [9]string = [9]string{"DEF", "DEBUG", "INFO",
-// 	"NOTIC", "WARN", "ERR", "CRIT", "ALERT", "EMERG"}
-
-// const FORMAT_DATETIME_UNIVERSAL string = "02-01-2006 15:04:05"
-
-// type LogMessage struct {
-// 	Name     string
-// 	Severity Sevlevel
-// }
-
-// var loggerObj Logger
+const PREFIX_SEVERITY_SEPARATOR = "/"
 
 func Init(mode int, args ...string) {
 
 	switch mode {
 	case MODE_DEFAULT:
 		// default logger implemented as wrapper on "log" package
+		log.Fatalln("not yet implemented")
 
 	case MODE_LOCALFILE:
 		// logs into a local file, filename and path should come in as args
