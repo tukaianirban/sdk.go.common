@@ -1,147 +1,83 @@
+/**
+The logger module exposes a set of functions to log messages of different types/levels.
+It exposes functions of different severity levels which are backed by a logger store depending on how the logger module is init'ed.
+**/
 package logger
 
-import (
-	"context"
-	"errors"
-	"log"
+import "log"
 
-	"github.com/tukaianirban/sdk.go.common/bruce"
+//
+// the different modes in which logger can function
+//
+const (
+	MODE_DEFAULT = iota
+	MODE_LOCALFILE
+	MODE_GCP
+	MODE_AWS
 )
 
 // todo : move this package to sdk.go.common with support for logging locally or with a cloud provider
 
-type Logger interface {
-	Log(name string, sev Sevlevel)
-}
-
-type Sevlevel uint8
-
-const (
-	Default Sevlevel = iota
-	Debug
-	Info
-	Notice
-	Warning
-	Error
-	Critical
-	Alert
-	Emergency
-)
-
-var SevLevelStrings [9]string = [9]string{"DEF", "DEBUG", "INFO",
-	"NOTIC", "WARN", "ERR", "CRIT", "ALERT", "EMERG"}
-
-const FORMAT_DATETIME_UNIVERSAL string = "02-01-2006 15:04:05"
-
-type LogMessage struct {
-	Name     string
-	Severity Sevlevel
-}
-
-// var chIngressLogs = make(chan LogMessage, 50)
-
-// func Log(name string, sev Sevlevel) {
-
-// 	chIngressLogs <- LogMessage{
-// 		Name:     name,
-// 		Severity: sev,
-// 	}
+// type Logger interface {
+// 	Log(name string, sev Sevlevel)
 // }
 
-var loggerObj Logger
+// type Sevlevel uint8
 
-func Init(ctx context.Context) error {
+// const (
+// 	Default Sevlevel = iota
+// 	Debug
+// 	Info
+// 	Notice
+// 	Warning
+// 	Error
+// 	Critical
+// 	Alert
+// 	Emergency
+// )
 
-	storeConfig, err := bruce.GetString("logs_store")
-	if err != nil {
-		return err
-	}
+// var SevLevelStrings [9]string = [9]string{"DEF", "DEBUG", "INFO",
+// 	"NOTIC", "WARN", "ERR", "CRIT", "ALERT", "EMERG"}
 
-	switch storeConfig {
-	case "default":
-		loggerObj, err = getDefaultLogger(ctx)
-		if err != nil {
-			return err
-		} else {
-			log.Printf("log provider type=%s; init done", "default")
-			return nil
+// const FORMAT_DATETIME_UNIVERSAL string = "02-01-2006 15:04:05"
+
+// type LogMessage struct {
+// 	Name     string
+// 	Severity Sevlevel
+// }
+
+// var loggerObj Logger
+
+func Init(mode int, args ...string) {
+
+	switch mode {
+	case MODE_DEFAULT:
+		// default logger implemented as wrapper on "log" package
+
+	case MODE_LOCALFILE:
+		// logs into a local file, filename and path should come in as args
+		if len(args) < 1 {
+			log.Fatalln("logger init failed for localfile mode, reason=local file not provided")
+			break
 		}
 
-	case "local":
-		loggerObj, err = getLocalLogger(ctx)
-		if err != nil {
-			return err
-		} else {
-			log.Printf("log provider type=%s init done", storeConfig)
-			return nil
+	case MODE_GCP:
+		// logs into a GCP logging instance
+		// arg should be the path of a configuration file containing gcp project details
+		if len(args) < 1 {
+			log.Fatalln("logger init failed for GCP mode, reason=GCP config file not provided")
+			break
 		}
 
-	case "gcp":
-		// loggerObj, err = getGCPLogger(ctx)
-		// if err != nil {
-		// 	return err
-		// } else {
-		// 	log.Printf("log provider type=%s init done", storeConfig)
-		// 	return nil
-		// }
-		fallthrough
+	case MODE_AWS:
+		// logs into a AWS service instance for logging
+		// arg should be the path of a configuration file containing AWS service details
+		if len(args) < 1 {
+			log.Fatalln("logger init failed for AWS mode, reason=AWS config file not provided")
+			break
+		}
 
 	default:
-		return errors.New("unknown logs provider configured")
+		log.Fatalln("logger init failed, unrecognised mode specified")
 	}
 }
-
-func Log(name string, sev Sevlevel) error {
-
-	if loggerObj == nil {
-		return errors.New("logger not initialized")
-	}
-
-	loggerObj.Log(name, sev)
-	return nil
-}
-
-// func Init(ctx context.Context) error {
-
-// 	outputLogFile, err := bruce.GetString("output_logfile")
-// 	if err != nil {
-// 		log.Fatalf("failed to open log output file, reason=%s", err.Error())
-// 		return err
-// 	}
-
-// 	// open the log output file
-// 	f, err := os.OpenFile(outputLogFile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
-// 	if err != nil {
-// 		log.Fatalf("error opening log output file, reason=%s", err.Error())
-// 		return err
-// 	}
-
-// 	// start the worker that continually consumes ingress logs
-// 	go workerIngestLogs(ctx, f)
-
-// 	return nil
-// }
-
-// func workerIngestLogs(ctx context.Context, fileObj *os.File) {
-
-// 	w := bufio.NewWriter(fileObj)
-
-// 	// w.WriteString(fmt.Sprintf("Date: %s \n", time.Now().Format(FORMAT_DATETIME_UNIVERSAL)))
-
-// 	defer func() {
-// 		w.Flush()
-// 		fileObj.Close()
-// 	}()
-
-// 	for {
-// 		select {
-// 		case <-ctx.Done():
-// 			log.Println("logger worker received signal to finish")
-// 			return
-
-// 		case msg := <-chIngressLogs:
-// 			w.WriteString(getLogString(msg.Name, msg.Severity))
-// 			w.Flush()
-// 		}
-// 	}
-// }
