@@ -30,6 +30,10 @@ args: optional param depending on the mode (ex: for local mode, the config file)
 **/
 func Init(mode int, args ...string) {
 
+	if configIndexer != nil {
+		log.Fatal("bruce has already been init")
+	}
+
 	var err error
 
 	switch mode {

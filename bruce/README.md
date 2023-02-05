@@ -2,6 +2,7 @@
 
 Purpose of this bruce module is to make handling configuration files easier.
 It is meant to be used in applications that read their configuration either from a configuration file, from Google Cloud Platform, AWS or similar sources.
+In any running application, there is only a single bruce instance possible. You cannot re'init bruce while the application is running
 
 ## Main functionalities
 
