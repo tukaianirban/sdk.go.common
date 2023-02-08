@@ -43,7 +43,6 @@ func Init(mode int, args ...string) {
 
 	switch mode {
 	case MODE_DEFAULT:
-		// default logger implemented as wrapper on "log" package
 		loggerInstance = logdefault.New()
 
 	case MODE_LOCALFILE:
