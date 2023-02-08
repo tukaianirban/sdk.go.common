@@ -1,8 +1,7 @@
-package logger
+package log
 
 import (
 	"fmt"
-	"time"
 )
 
 const FORMAT_DATETIME_UNIVERSAL string = "02-01-2006 15:04:05"
@@ -59,10 +58,10 @@ type LoggerInterface interface {
 // modifies the log message to include default params in the log message
 // for now: date time is added in the beginning of the message
 //
-func modLogMessage(message string, args ...interface{}) string {
+// func modLogMessage(message string, args ...interface{}) string {
 
-	return time.Now().Format(FORMAT_DATETIME_UNIVERSAL) + " " + fmt.Sprintf(message, args...)
-}
+// 	return time.Now().Format(FORMAT_DATETIME_UNIVERSAL) + " " + fmt.Sprintf(message, args...)
+// }
 
 /************ Exposed functions **************/
 func Printf(message string, args ...interface{}) {

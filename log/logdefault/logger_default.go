@@ -10,7 +10,7 @@ type providerdefault struct {
 	instDebug *log.Logger
 }
 
-func New(filename string) *providerdefault {
+func New() *providerdefault {
 
 	return &providerdefault{
 		inst:      log.New(nil, "", log.Ldate|log.Ltime|log.Lshortfile),

@@ -2,9 +2,13 @@
 The logger module exposes a set of functions to log messages of different types/levels.
 It exposes functions of different severity levels which are backed by a logger store depending on how the logger module is init'ed.
 **/
-package logger
+package log
 
-import "log"
+import (
+	"log"
+
+	"github.com/tukaianirban/sdk.go.common/log/logdefault"
+)
 
 //
 // the different modes in which logger can function
@@ -40,7 +44,7 @@ func Init(mode int, args ...string) {
 	switch mode {
 	case MODE_DEFAULT:
 		// default logger implemented as wrapper on "log" package
-		log.Fatalln("not yet implemented")
+		loggerInstance = logdefault.New()
 
 	case MODE_LOCALFILE:
 		// logs into a local file, filename and path should come in as args
