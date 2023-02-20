@@ -72,3 +72,10 @@ func Init(mode int, args ...string) {
 		log.Fatalln("logger init failed, unrecognised mode specified")
 	}
 }
+
+/**
+Interface definition that each logger provider (local, gcp, aws, etc) must support
+**/
+type LoggerInterface interface {
+	Printf(message string, args ...interface{})
+}

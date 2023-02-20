@@ -27,6 +27,15 @@ The logger module can be used in different modes:
 
 Calling fatal[f|ln]() will result in the log being pushed to the respective provider and then a call to os.Exit(1)
 
+### Desired (Sample) logging outputs
+
+Print:
+YYYY/MM/dd HH:mm:ss (<SEV>) { ... log message ... }
+Debug:
+YYYY/MM/dd HH:mm:ss.msec (<SEV>) <functionname>:{ ... log message ... }
+Trace:
+YYYY/MM/dd HH:mm:ss.msec (<SEV>) <filename/functionname>:{ ... log message ... }
+
 ### Upcoming features
 
 - Implementation of MODE_GCP
