@@ -109,3 +109,8 @@ func TraceVerbose(message string, args ...interface{}) {
 
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %s:%s:%d %v\n", getDateTime(true), SEVERITY_TRACER, filepath, callerfunc, linenumber, fmt.Sprintf(message, args...)))
 }
+
+// fetch the last error encountered, if any
+func GetLastError() error {
+	return loggerInstance.GetLastError()
+}

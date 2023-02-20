@@ -6,8 +6,10 @@ package log
 
 import (
 	"log"
+	"reflect"
 
 	"github.com/tukaianirban/sdk.go.common/log/logdefault"
+	"github.com/tukaianirban/sdk.go.common/log/loglocal"
 )
 
 //
@@ -52,6 +54,8 @@ func Init(mode int, args ...string) {
 			break
 		}
 
+		loggerInstance = loglocal.New(args[0])
+
 	case MODE_GCP:
 		// logs into a GCP logging instance
 		// arg should be the path of a configuration file containing gcp project details
@@ -71,6 +75,10 @@ func Init(mode int, args ...string) {
 	default:
 		log.Fatalln("logger init failed, unrecognised mode specified")
 	}
+
+	if reflect.ValueOf(loggerInstance).IsNil() {
+		log.Fatal("failed to initialise logger module")
+	}
 }
 
 /**
@@ -78,4 +86,5 @@ Interface definition that each logger provider (local, gcp, aws, etc) must suppo
 **/
 type LoggerInterface interface {
 	Printf(message string, args ...interface{})
+	GetLastError() error
 }

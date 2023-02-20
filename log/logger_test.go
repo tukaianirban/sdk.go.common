@@ -4,7 +4,7 @@ import "testing"
 
 func TestPrint(t *testing.T) {
 
-	Init(MODE_DEFAULT)
+	Init(MODE_LOCALFILE, "./temp.txt")
 
 	Print("String=%s Int=%d", "hello world", 666)
 	Info("String=%s Int=%d", "hello world", 666)
@@ -18,5 +18,9 @@ func TestPrint(t *testing.T) {
 	Debug("String=%s Int=%d", "hello world", 666)
 	Trace("String=%s Int=%d", "hello world", 666)
 	TraceVerbose("String=%s Int=%d", "hello world", 666)
+
+	if err := GetLastError(); err != nil {
+		t.Errorf("last error in log package=%s", err.Error())
+	}
 
 }
