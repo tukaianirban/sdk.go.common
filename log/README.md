@@ -30,11 +30,11 @@ Calling fatal[f|ln]() will result in the log being pushed to the respective prov
 ### Desired (Sample) logging outputs
 
 Print:
-YYYY/MM/dd HH:mm:ss (<SEV>) { ... log message ... }
+DD-MM-YYYY HH:mm:ss [<SEV>] <... log message ...>
 Debug:
-YYYY/MM/dd HH:mm:ss.msec (<SEV>) <functionname>:{ ... log message ... }
+DD-MM-YYYY HH:mm:ss.msec [<SEV>] <... log message ...>
 Trace:
-YYYY/MM/dd HH:mm:ss.msec (<SEV>) <filename/functionname>:{ ... log message ... }
+DD-MM-YYYY HH:mm:ss [<SEV>] <filaname:functionname:linenumber <... log message ...>
 
 ### Upcoming features
 

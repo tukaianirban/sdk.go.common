@@ -86,21 +86,26 @@ func Debug(message string, args ...interface{}) {
 
 func Trace(message string, args ...interface{}) {
 
-	pc, filename, linenumber, _ := runtime.Caller(2)
+	pc, filename, linenumber, _ := runtime.Caller(1)
 
 	// extract only the filename from the entire filepath
 	parts := strings.Split(filename, "/")
 	filename = parts[len(parts)-1]
-	callerfunc := runtime.FuncForPC(pc).Name()
+
+	// extract only the function name from the whole name
+	parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+	callerfunc := parts[len(parts)-1]
 
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %s:%s:%d %v\n", getDateTime(true), SEVERITY_TRACER, filename, callerfunc, linenumber, fmt.Sprintf(message, args...)))
 }
 
 func TraceVerbose(message string, args ...interface{}) {
 
-	pc, filepath, linenumber, _ := runtime.Caller(2)
+	pc, filepath, linenumber, _ := runtime.Caller(1)
 
-	callerfunc := runtime.FuncForPC(pc).Name()
+	// extract only the function name from the whole name
+	parts := strings.Split(runtime.FuncForPC(pc).Name(), ".")
+	callerfunc := parts[len(parts)-1]
 
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %s:%s:%d %v\n", getDateTime(true), SEVERITY_TRACER, filepath, callerfunc, linenumber, fmt.Sprintf(message, args...)))
 }
