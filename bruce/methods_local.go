@@ -1,9 +1,10 @@
 package bruce
 
 import (
-	"log"
 	"os"
 	"time"
+
+	"github.com/tukaianirban/sdk.go.common/log"
 
 	"github.com/tukaianirban/sdk.go.common/jsonreader"
 )
@@ -60,7 +61,7 @@ func (indexer fileIndexer) watcher() {
 
 		fileInfo, err := os.Stat(indexer.Filename)
 		if err != nil {
-			log.Printf("error: failed to read fileinfo of configfile, reason=%s", err.Error())
+			log.Print("error: failed to read fileinfo of configfile, reason=%s", err.Error())
 			break
 		}
 
@@ -70,7 +71,7 @@ func (indexer fileIndexer) watcher() {
 			// if loading new changed configfile causes error, ignore it and continue working
 			// as previously
 			if err = indexer.reloadConfig(); err != nil {
-				log.Printf("error: failed to read in changed configfile, reason=%s", err.Error())
+				log.Print("error: failed to read in changed configfile, reason=%s", err.Error())
 			}
 		}
 	}

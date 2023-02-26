@@ -5,7 +5,8 @@ It exposes functions of different severity levels which are backed by a logger s
 package log
 
 import (
-	"log"
+	"fmt"
+	"os"
 	"reflect"
 
 	"github.com/tukaianirban/sdk.go.common/log/logdefault"
@@ -50,7 +51,8 @@ func Init(mode int, args ...string) {
 	case MODE_LOCALFILE:
 		// logs into a local file, filename and path should come in as args
 		if len(args) < 1 {
-			log.Fatalln("logger init failed for localfile mode, reason=local file not provided")
+			fmt.Println("logger init failed for localfile mode, reason=local file not provided")
+			os.Exit(1)
 			break
 		}
 
@@ -60,7 +62,8 @@ func Init(mode int, args ...string) {
 		// logs into a GCP logging instance
 		// arg should be the path of a configuration file containing gcp project details
 		if len(args) < 1 {
-			log.Fatalln("logger init failed for GCP mode, reason=GCP config file not provided")
+			fmt.Println("logger init failed for GCP mode, reason=GCP config file not provided")
+			os.Exit(1)
 			break
 		}
 
@@ -68,16 +71,19 @@ func Init(mode int, args ...string) {
 		// logs into a AWS service instance for logging
 		// arg should be the path of a configuration file containing AWS service details
 		if len(args) < 1 {
-			log.Fatalln("logger init failed for AWS mode, reason=AWS config file not provided")
+			fmt.Println("logger init failed for AWS mode, reason=AWS config file not provided")
+			os.Exit(1)
 			break
 		}
 
 	default:
-		log.Fatalln("logger init failed, unrecognised mode specified")
+		fmt.Println("logger init failed, unrecognised mode specified")
+		os.Exit(1)
 	}
 
 	if reflect.ValueOf(loggerInstance).IsNil() {
-		log.Fatal("failed to initialise logger module")
+		fmt.Println("failed to initialise logger module")
+		os.Exit(1)
 	}
 }
 

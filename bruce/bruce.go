@@ -1,7 +1,7 @@
 package bruce
 
 import (
-	"log"
+	"github.com/tukaianirban/sdk.go.common/log"
 )
 
 //
@@ -39,12 +39,12 @@ func Init(mode int, args ...string) {
 	switch mode {
 	case MODE_LOCAL:
 		if len(args) < 1 {
-			log.Fatalf("error: Local config init params not provided")
+			log.Fatal("error: Local config init params not provided")
 		}
 
 		// pass in the local config file name
 		if configIndexer, err = initConfigModeLocal(args[0]); err != nil {
-			log.Fatalf("error initializing local mode config, reason=%s", err.Error())
+			log.Fatal("error initializing local mode config, reason=%s", err.Error())
 		}
 
 	case MODE_GCP:
@@ -57,7 +57,7 @@ func Init(mode int, args ...string) {
 		fallthrough
 
 	default:
-		log.Fatalf("fatal: config mode not implemented")
+		log.Fatal("fatal: config mode not implemented")
 	}
 }
 
