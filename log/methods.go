@@ -36,7 +36,17 @@ The different logging providers only write the message to the appropriate output
 func Print(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_DEFAULT, fmt.Sprintf(message, args...)))
@@ -45,7 +55,17 @@ func Print(message string, args ...interface{}) {
 func Info(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_INFO, fmt.Sprintf(message, args...)))
@@ -54,7 +74,17 @@ func Info(message string, args ...interface{}) {
 func Notice(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_NOTICE, fmt.Sprintf(message, args...)))
@@ -63,7 +93,17 @@ func Notice(message string, args ...interface{}) {
 func Warning(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_WARNING, fmt.Sprintf(message, args...)))
@@ -72,7 +112,17 @@ func Warning(message string, args ...interface{}) {
 func Error(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_ERROR, fmt.Sprintf(message, args...)))
@@ -81,7 +131,17 @@ func Error(message string, args ...interface{}) {
 func Critical(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_CRITICAL, fmt.Sprintf(message, args...)))
@@ -90,7 +150,17 @@ func Critical(message string, args ...interface{}) {
 func Alert(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_ALERT, fmt.Sprintf(message, args...)))
@@ -99,7 +169,17 @@ func Alert(message string, args ...interface{}) {
 func Emergency(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_EMERGENCY, fmt.Sprintf(message, args...)))
@@ -108,7 +188,17 @@ func Emergency(message string, args ...interface{}) {
 func Fatal(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(false), SEVERITY_FATAL, fmt.Sprintf(message, args...)))
@@ -118,7 +208,17 @@ func Fatal(message string, args ...interface{}) {
 func Debug(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	loggerInstance.Printf(fmt.Sprintf("%s [%s] %v\n", getDateTime(true), SEVERITY_DEBUG, fmt.Sprintf(message, args...)))
@@ -127,7 +227,17 @@ func Debug(message string, args ...interface{}) {
 func Trace(message string, args ...interface{}) {
 
 	if loggerInstance == nil {
-		fmt.Println("Fatal: logger module not initialised yet")
+		pc, filename, linenumber, _ := runtime.Caller(1)
+
+		// extract only the filename from the entire filepath
+		parts := strings.Split(filename, "/")
+		filename = parts[len(parts)-1]
+
+		// extract only the function name from the whole name
+		parts = strings.Split(runtime.FuncForPC(pc).Name(), ".")
+		callerfunc := parts[len(parts)-1]
+
+		fmt.Printf("Fatal: logger module called from %s : %s : %d not initialised yet", filename, callerfunc, linenumber)
 		return
 	}
 	pc, filename, linenumber, _ := runtime.Caller(1)
