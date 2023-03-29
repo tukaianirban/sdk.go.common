@@ -6,7 +6,7 @@ import (
 
 func TestGetString(t *testing.T) {
 
-	Init(MODE_LOCAL, "./sample_config.json")
+	Init()
 
 	val, err := GetString("firestore.collection")
 	if err != nil {
@@ -18,7 +18,7 @@ func TestGetString(t *testing.T) {
 
 func TestGetInt(t *testing.T) {
 
-	Init(MODE_LOCAL, "./sample_config.json")
+	Init()
 
 	val, err := GetInt("firestore.fieldCount")
 	if err != nil {
@@ -37,7 +37,7 @@ func TestGetInt(t *testing.T) {
 
 func TestGetFloat64(t *testing.T) {
 
-	Init(MODE_LOCAL, "./sample_config.json")
+	Init()
 
 	val, err := GetFloat64("semanticVersion")
 	if err != nil {
