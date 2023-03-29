@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/tukaianirban/sdk.go.common/bruce/readers"
-	"github.com/tukaianirban/sdk.go.common/log"
 	"gopkg.in/yaml.v3"
 )
 
@@ -24,7 +24,7 @@ var indexerInstance *FileReader
 /**
 create a new indexer by loading config from the local file
 **/
-func Init(configFile string) (*FileReader, error) {
+func Init(configFile string, refresh bool) (*FileReader, error) {
 
 	reader, err := ReadFromFile(configFile)
 	if err != nil {
@@ -42,7 +42,9 @@ func Init(configFile string) (*FileReader, error) {
 		FileModTime: fileInfo.ModTime(),
 	}
 
-	go indexerInstance.watcher()
+	if refresh {
+		go indexerInstance.watcher()
+	}
 
 	return indexerInstance, nil
 }
@@ -95,7 +97,7 @@ func (indexer *FileReader) watcher() {
 
 		fileInfo, err := os.Stat(indexer.Filename)
 		if err != nil {
-			log.Print("error: failed to read fileinfo of configfile, reason=%s", err.Error())
+			log.Printf("error: failed to read fileinfo of configfile, reason=%s", err.Error())
 			break
 		}
 
@@ -111,7 +113,7 @@ func (indexer *FileReader) watcher() {
 		// as previously
 		newReader, err := ReadFromFile(indexer.Filename)
 		if err != nil {
-			log.Print("Error: failed to reload config from file, reason=%s", err.Error())
+			log.Printf("Error: failed to reload config from file, reason=%s", err.Error())
 			continue
 		}
 

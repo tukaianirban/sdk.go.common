@@ -2,10 +2,10 @@ package bruce
 
 import (
 	"flag"
+	"log"
 	"strings"
 
 	"github.com/tukaianirban/sdk.go.common/bruce/local"
-	"github.com/tukaianirban/sdk.go.common/log"
 )
 
 const (
@@ -18,6 +18,7 @@ var instance ConfigStore
 
 var configFile = flag.String("configfile", "./sample_config.json", "configuration file")
 var provider = flag.String("configprovider", "local", "store to load configs from")
+var refresh = flag.Bool("configrefresh", true, "periodically refresh the configuration")
 
 /**
 Bruce Init() cannot be replaced by init() as flag parsing in init() is not recommended
@@ -37,9 +38,9 @@ func Init() {
 
 	switch strings.ToLower(*provider) {
 	case PROVIDER_LOCAL:
-		instance, err = local.Init(*configFile)
+		instance, err = local.Init(*configFile, *refresh)
 		if err != nil {
-			log.Fatal("Failed to load config from local file=%s, reason=%s", *configFile, err.Error())
+			log.Fatalf("Failed to load config from local file=%s, reason=%s", *configFile, err.Error())
 			return
 		}
 
@@ -51,6 +52,6 @@ func Init() {
 		log.Fatal("Loading config from AWS is not implemented yet")
 
 	default:
-		log.Fatal("Invalid mode for config loading=%s", *provider)
+		log.Fatalf("Invalid mode for config loading=%s", *provider)
 	}
 }

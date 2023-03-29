@@ -11,6 +11,8 @@ import (
 	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
 )
 
+/***  WORK IN PROGRESS : DO NOT USE  ****/
+
 type GcpIndexer struct {
 	ProjectID string
 	Client    *secretmanager.Client
