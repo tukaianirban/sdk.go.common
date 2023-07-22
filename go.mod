@@ -5,6 +5,7 @@ go 1.18
 require (
 	cloud.google.com/go/secretmanager v1.10.0
 	google.golang.org/genproto v0.0.0-20230113154510-dbe35b8444a5
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -25,5 +26,4 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/grpc v1.51.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
