@@ -1,4 +1,4 @@
-name: Publish as library
+name: Publish new version
 
 on:
   push:
@@ -9,9 +9,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: echo
-        run: echo "running on github ref $GITHUB_REF  event = ${{github.event}}"
-
       - name: Exit if not on main branch
         if: endsWith(github.event.base_ref, 'main') == false
         run: exit -1
