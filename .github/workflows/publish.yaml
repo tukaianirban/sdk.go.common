@@ -11,5 +11,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Exit if not on main branch
+        if: endsWith(github.event.base_ref, 'main') == false
+        run: exit -1
+
       - name: Publish
         run: GOPROXY=proxy.golang.org go list -m github.com/tukaianirban/sdk.go.common@${{github.ref_name}}
