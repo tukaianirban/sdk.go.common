@@ -5,11 +5,14 @@ import (
 )
 
 type providerdefault struct {
+	isTrace bool
 }
 
-func New() *providerdefault {
+func New(isTracingEnabled bool) *providerdefault {
 
-	return &providerdefault{}
+	return &providerdefault{
+		isTrace: isTracingEnabled,
+	}
 }
 
 func (def *providerdefault) GetLastError() error {
@@ -18,4 +21,8 @@ func (def *providerdefault) GetLastError() error {
 
 func (def *providerdefault) Printf(message string, args ...interface{}) {
 	fmt.Printf(message, args...)
+}
+
+func (def *providerdefault) IsTraceEnabled() bool {
+	return def.isTrace
 }
