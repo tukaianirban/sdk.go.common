@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo
-        run: echo "running on github ref $GITHUB_REF  $GITHUB_BASE_REF"
+        run: echo "running on github ref $GITHUB_REF  base ref= $GITHUB_BASE_REF"
 
       - name: Exit if not on main branch
         if: endsWith(github.ref, 'main') == false
