@@ -24,6 +24,4 @@ func TestPrint(t *testing.T) {
 	if err := GetLastError(); err != nil {
 		t.Errorf("last error in log package=%s", err.Error())
 	}
-
-	Fatal("String=%s Int=%d", "hello world", 666)
 }

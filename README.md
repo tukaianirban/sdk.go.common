@@ -4,16 +4,8 @@ This repository contains a collection of useful libraries that I have been build
 I hope you find joy in using them as much as I do.
 Each package is meant to be standalone and does not have dependencies on other packages.
 
-## Versioning
+## Using the module
 
-- All tags in the repository use the nomenclature " v<major>.<minor>.<patch> ".
-- Using the 'v' as suffix is important for publishing new versions of the module.
+- Get the available versions of the module using `go list -m -versions github.com/tukaianirban/sdk.go.common`
 
-## Publishing
-
-This library is published as a public library. Command:
-`$ GOPROXY=proxy.golang.org go list -m github.com/tukaianirban/sdk.go.common@v1.2.5`
-
-### Notes
-
-- The jsonreader package will be soon deprecated.
+- Fetch the latest version of the module using `go get github.com/tukaianirban/sdk.go.common`
