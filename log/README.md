@@ -2,42 +2,38 @@
 
 Purpose of this module is to enable applications to store/send logs in different environments like local file, in Google Cloud Platform, Amazon AWS, etc.
 
-### Modes of operation
+### Type and Level of logs supported
 
-The logger module can be used in different modes:
+The log module supports 6 levels of logs:
 
-- MODE_DEFAULT: default logging of the passed in log message. No arg to be passed in the Init() call.
+- LEVEL_DEBUG - recommended to be used to denote logs that provide information useful for debugging issues with application / business logic.
+- LEVEL_INFO - recommended to denote logs that provide information (only) to the viewer.
+- LEVEL_WARNING - recommended to denote logs that inform of a possible error condition to occur if a certain state(s) are not fixed.
+- LEVEL_ERROR - recommended for logs that denote a break in functionality, state or logic of an application
+- LEVEL_ALERT - recommended for logs with errors that can potentially lead to degradation of application, business availability
+- LEVEL_FATAL - recommended for logs denoting a complete failure of a application sub-system, business processing logic, or the entire application.
 
-- MODE_LOCALFILE: logs are stored into a local file where the application is running.
+### Tracing
 
-  - Init() must be called with the path of the (log) storage file.
-  - If the file exists, then logs are appended to it.
-  - Application must have write permissions to the (log) storage file.
+The log module could be running either with trace set / unset. Tracing can/should be enabled when init'ing the log module and remains relevant irrespective of the types/levels of log messages bwing created.
 
-- MODE_GCP: logs are sent to a GCP service.
+Tracing mode should be switched on when there is a need to identify the file and method name from where a log line originates. This must be set when init'ing the module.
 
-  - Init() must be called with the path of the GCP project config file.
-  - Details of the implementation and AWS service yet to be decided.
+```
+log.Init(true)
+```
 
-- MODE_AWS: logs are sent to a AWS service.
-  - Init() must be called with the path of the AWS project config file.
-  - Details of the implementation and AWS service is yet to be decided.
+Example log lines with tracing enabled:
 
-### Some details
+```
+08-06-2024 23:30:05 [W] logger_test.go:TestPrint:10 this should be a warning mesage with string=hello world Int=666
+08-06-2024 23:30:05 [E] logger_test.go:TestPrint:11 error flagged with string=hello world Int=666
+08-06-2024 23:30:05 [A] logger_test.go:TestPrint:12 this is an alert for string=hello world Int=666
+08-06-2024 23:30:05 [D] logger_test.go:TestPrint:13 this log contains debugging
+```
 
-Calling fatal[f|ln]() will result in the log being pushed to the respective provider and then a call to os.Exit(1)
+Note: To change the setting of `tracing`, the log module needs to be initialized once more, and thereby inferring the need for an application restart.
 
-### Desired (Sample) logging outputs
+### Supported Methods
 
-Print:
-DD-MM-YYYY HH:mm:ss [<SEV>] <... log message ...>
-Debug:
-DD-MM-YYYY HH:mm:ss.msec [<SEV>] <... log message ...>
-Trace:
-DD-MM-YYYY HH:mm:ss [<SEV>] <filaname:functionname:linenumber <... log message ...>
-
-### Upcoming features
-
-- Implementation of MODE_GCP
-- Implementation of MODE_AWS
-- Double-down on flushing out errors on graceful/ungraceful application shutdown.
+// todo

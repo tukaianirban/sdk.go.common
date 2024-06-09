@@ -4,23 +4,26 @@ import "testing"
 
 func TestPrint(t *testing.T) {
 
-	Init(MODE_LOCALFILE, "./temp.txt")
+	Init(true)
 
-	Print("String=%s Int=%d", "hello world", 666)
-	Info("String=%s Int=%d", "hello world", 666)
-	Notice("String=%s Int=%d", "hello world", 666)
-	Warning("String=%s Int=%d", "hello world", 666)
-	Error("String=%s Int=%d", "hello world", 666)
-	Critical("String=%s Int=%d", "hello world", 666)
-	Alert("String=%s Int=%d", "hello world", 666)
-	Emergency("String=%s Int=%d", "hello world", 666)
-	// Fatal("String=%s Int=%d", "hello world", 666)
-	Debug("String=%s Int=%d", "hello world", 666)
-	Trace("String=%s Int=%d", "hello world", 666)
-	TraceVerbose("String=%s Int=%d", "hello world", 666)
+	type DummyPerson struct {
+		Name   string
+		Income float64
+	}
+	tom := DummyPerson{
+		Name:   "tom",
+		Income: 9.84,
+	}
+
+	Info("info about Tom = %#v", tom)
+	Warning("this should be a warning mesage with string=%s Int=%d", "hello world", 121)
+	Error("error flagged with string=%s Int=%d", "hello world", 363)
+	Alert("this is an alert for string=%s Int=%d", "hello world", 424)
+	Debug("this log contains debugging info of string=%s Int=%d", "hello world", 7770)
 
 	if err := GetLastError(); err != nil {
 		t.Errorf("last error in log package=%s", err.Error())
 	}
 
+	Fatal("String=%s Int=%d", "hello world", 666)
 }
