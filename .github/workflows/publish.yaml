@@ -1,0 +1,13 @@
+name: Publish as library
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish
+        run: GOPROXY=proxy.golang.org go list -m github.com/tukaianirban/sdk.go.common@${{github.ref_name}}
