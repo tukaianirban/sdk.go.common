@@ -17,6 +17,8 @@ Each package is meant to be standalone and does not have dependencies on other p
 - - All contributions must come from feature branches, named after the problem being resolved.
 - - Look for constructive review of your change. Every Pull Request must be reviewed by atleast one other person for sanity, cleanliness and value.
 - - If you are reviewing a PR, be kind to the developer/contributor, but not to the code.
+- - All PRs when being merged to `main` will be squashed, to maintain a 'relatively' clean commit history.
+- - Consider suffixing your commits with either of `impl: `, `fix: `, `chore: ` to denote the purpose behind the change.
 
 ## Feedback
 

@@ -4,18 +4,9 @@ It exposes functions of different severity levels which are backed by a logger s
 **/
 package log
 
-import "github.com/tukaianirban/sdk.go.common/log/logdefault"
-
-//
-// severity-based prefixes definition
-//
-const (
-	LEVEL_DEBUG   = "D"
-	LEVEL_INFO    = "I"
-	LEVEL_WARNING = "W"
-	LEVEL_ERROR   = "E"
-	LEVEL_ALERT   = "A"
-	LEVEL_FATAL   = "F"
+import (
+	"github.com/tukaianirban/sdk.go.common/log/defs"
+	"github.com/tukaianirban/sdk.go.common/log/logdefault"
 )
 
 //
@@ -23,9 +14,14 @@ const (
 //
 var loggerInstance logger
 
-func Init(flagTrace bool) {
+func Init(flagTrace bool, flags ...int) {
 
-	loggerInstance = logdefault.New(flagTrace)
+	logLevel := defs.LEVEL_INFO
+	if len(flags) > 0 {
+		logLevel = defs.LOG_LEVEL(flags[0])
+	}
+
+	loggerInstance = logdefault.New(flagTrace, logLevel)
 }
 
 /**
@@ -33,6 +29,7 @@ Interface definition that each log provider must support
 **/
 type logger interface {
 	IsTraceEnabled() bool
+	GetLogLevel() defs.LOG_LEVEL
 	Printf(message string, args ...interface{})
 	GetLastError() error
 }
