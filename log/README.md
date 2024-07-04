@@ -4,7 +4,7 @@ Purpose of this module is to enable applications to store/send logs in different
 
 ### Type and Level of logs supported
 
-The log module supports 6 levels of logs:
+The log module supports 6 levels of logs (in incremental order of levels):
 
 - LEVEL_DEBUG - recommended to be used to denote logs that provide information useful for debugging issues with application / business logic.
 - LEVEL_INFO - recommended to denote logs that provide information (only) to the viewer.
@@ -13,11 +13,17 @@ The log module supports 6 levels of logs:
 - LEVEL_ALERT - recommended for logs with errors that can potentially lead to degradation of application, business availability
 - LEVEL_FATAL - recommended for logs denoting a complete failure of a application sub-system, business processing logic, or the entire application.
 
+To have logs of a certain level and above, init the log module as below:
+
+```
+Init(true, int(defs.LEVEL_WARNING))
+```
+
+With the above config, only logs with level WARNING and above (WARNING, ERROR, ALERT, FATAL) will be emitted. Logs of level INFO, DEBUG will not be emitted.
+
 ### Tracing
 
-The log module could be running either with trace set / unset. Tracing can/should be enabled when init'ing the log module and remains relevant irrespective of the types/levels of log messages bwing created.
-
-Tracing mode should be switched on when there is a need to identify the file and method name from where a log line originates. This must be set when init'ing the module.
+The log module could be running either with trace set / unset. Tracing can/should be enabled when init'ing the log module and remains relevant irrespective of the types/levels of log messages bwing created. Tracing mode should be switched on when there is a need to identify the file and method name from where a log line originates. This must be set when init'ing the module.
 
 ```
 log.Init(true)
@@ -32,8 +38,8 @@ Example log lines with tracing enabled:
 08-06-2024 23:30:05 [D] logger_test.go:TestPrint:13 this log contains debugging
 ```
 
-Note: To change the setting of `tracing`, the log module needs to be initialized once more, and thereby inferring the need for an application restart.
+Note: To change the setting of `tracing`, the log module needs to be re-initialized, and thereby inferring the need for an application restart.
 
-### Supported Methods
+## Upcoming features
 
-// todo
+- Support JSON-encoded logs with an extend-able setting. With a single optional setting in the log module, applications should be able to choose between emitting flat strings or JSON-encoded strings as content of the log messages.
