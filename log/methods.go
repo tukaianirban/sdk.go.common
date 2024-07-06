@@ -6,8 +6,6 @@ import (
 	"runtime"
 	"strings"
 	"time"
-
-	"github.com/tukaianirban/sdk.go.common/log/defs"
 )
 
 const format_datetime string = "02-01-2006 15:04:05"
@@ -46,80 +44,80 @@ The different logging providers only write the message to the appropriate output
 
 func Info(message string, args ...interface{}) {
 
-	if loggerInstance.GetLogLevel() > defs.LEVEL_INFO {
+	if loggerInstance.GetLogLevel() > LEVEL_INFO {
 		return
 	}
 
 	if loggerInstance.IsTraceEnabled() {
-		loggerInstance.Printf(getLogLineTrace(message, defs.TAG_INFO, args...))
+		loggerInstance.Printf(getLogLineTrace(message, TAG_INFO, args...))
 	} else {
-		loggerInstance.Printf(getLogLine(message, defs.TAG_INFO, args...))
+		loggerInstance.Printf(getLogLine(message, TAG_INFO, args...))
 	}
 }
 
 func Warning(message string, args ...interface{}) {
 
-	if loggerInstance.GetLogLevel() > defs.LEVEL_WARNING {
+	if loggerInstance.GetLogLevel() > LEVEL_WARNING {
 		return
 	}
 
 	if loggerInstance.IsTraceEnabled() {
-		loggerInstance.Printf(getLogLineTrace(message, defs.TAG_WARNING, args...))
+		loggerInstance.Printf(getLogLineTrace(message, TAG_WARNING, args...))
 	} else {
-		loggerInstance.Printf(getLogLine(message, defs.TAG_WARNING, args...))
+		loggerInstance.Printf(getLogLine(message, TAG_WARNING, args...))
 	}
 }
 
 func Error(message string, args ...interface{}) {
 
-	if loggerInstance.GetLogLevel() > defs.LEVEL_ERROR {
+	if loggerInstance.GetLogLevel() > LEVEL_ERROR {
 		return
 	}
 
 	if loggerInstance.IsTraceEnabled() {
-		loggerInstance.Printf(getLogLineTrace(message, defs.TAG_ERROR, args...))
+		loggerInstance.Printf(getLogLineTrace(message, TAG_ERROR, args...))
 	} else {
-		loggerInstance.Printf(getLogLine(message, defs.TAG_ERROR, args...))
+		loggerInstance.Printf(getLogLine(message, TAG_ERROR, args...))
 	}
 }
 
 func Alert(message string, args ...interface{}) {
 
-	if loggerInstance.GetLogLevel() > defs.LEVEL_ALERT {
+	if loggerInstance.GetLogLevel() > LEVEL_ALERT {
 		return
 	}
 
 	if loggerInstance.IsTraceEnabled() {
-		loggerInstance.Printf(getLogLineTrace(message, defs.TAG_ALERT, args...))
+		loggerInstance.Printf(getLogLineTrace(message, TAG_ALERT, args...))
 	} else {
-		loggerInstance.Printf(getLogLine(message, defs.TAG_ALERT, args...))
+		loggerInstance.Printf(getLogLine(message, TAG_ALERT, args...))
 	}
 }
 
 func Fatal(message string, args ...interface{}) {
 
-	if loggerInstance.GetLogLevel() > defs.LEVEL_FATAL {
+	if loggerInstance.GetLogLevel() > LEVEL_FATAL {
 		return
 	}
 
 	if loggerInstance.IsTraceEnabled() {
-		loggerInstance.Printf(getLogLineTrace(message, defs.TAG_FATAL, args...))
+		loggerInstance.Printf(getLogLineTrace(message, TAG_FATAL, args...))
 	} else {
-		loggerInstance.Printf(getLogLine(message, defs.TAG_FATAL, args...))
+		loggerInstance.Printf(getLogLine(message, TAG_FATAL, args...))
 	}
 	os.Exit(1)
 }
 
 func Debug(message string, args ...interface{}) {
 
-	if loggerInstance.GetLogLevel() > defs.LEVEL_DEBUG {
+	if loggerInstance.GetLogLevel() > LEVEL_DEBUG {
 		return
 	}
 
 	if loggerInstance.IsTraceEnabled() {
-		loggerInstance.Printf(getLogLineTrace(message, defs.TAG_DEBUG, args...))
+		loggerInstance.Printf(getLogLineTrace(message, TAG_DEBUG, args...))
 	} else {
-		loggerInstance.Printf(getLogLine(message, defs.TAG_DEBUG, args...))
+		loggerInstance.Printf(getLogLine(message, TAG_DEBUG, args...))
 	}
 }
 
