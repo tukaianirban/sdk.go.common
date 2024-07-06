@@ -1,17 +1,15 @@
-package logdefault
+package log
 
 import (
 	"fmt"
-
-	"github.com/tukaianirban/sdk.go.common/log/defs"
 )
 
 type providerdefault struct {
 	isTrace  bool
-	logLevel defs.LOG_LEVEL
+	logLevel LOG_LEVEL
 }
 
-func New(isTracingEnabled bool, logLevel defs.LOG_LEVEL) *providerdefault {
+func NewDefaultLogger(isTracingEnabled bool, logLevel LOG_LEVEL) *providerdefault {
 
 	return &providerdefault{
 		isTrace:  isTracingEnabled,
@@ -31,6 +29,6 @@ func (def *providerdefault) IsTraceEnabled() bool {
 	return def.isTrace
 }
 
-func (def *providerdefault) GetLogLevel() defs.LOG_LEVEL {
+func (def *providerdefault) GetLogLevel() LOG_LEVEL {
 	return def.logLevel
 }

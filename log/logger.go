@@ -4,11 +4,6 @@ It exposes functions of different severity levels which are backed by a logger s
 **/
 package log
 
-import (
-	"github.com/tukaianirban/sdk.go.common/log/defs"
-	"github.com/tukaianirban/sdk.go.common/log/logdefault"
-)
-
 //
 // the global instance for calls to underlying struct
 //
@@ -16,12 +11,12 @@ var loggerInstance logger
 
 func Init(flagTrace bool, flags ...int) {
 
-	logLevel := defs.LEVEL_INFO
+	logLevel := LEVEL_INFO
 	if len(flags) > 0 {
-		logLevel = defs.LOG_LEVEL(flags[0])
+		logLevel = LOG_LEVEL(flags[0])
 	}
 
-	loggerInstance = logdefault.New(flagTrace, logLevel)
+	loggerInstance = NewDefaultLogger(flagTrace, logLevel)
 }
 
 /**
@@ -29,7 +24,7 @@ Interface definition that each log provider must support
 **/
 type logger interface {
 	IsTraceEnabled() bool
-	GetLogLevel() defs.LOG_LEVEL
+	GetLogLevel() LOG_LEVEL
 	Printf(message string, args ...interface{})
 	GetLastError() error
 }
